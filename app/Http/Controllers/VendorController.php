@@ -82,6 +82,6 @@ class VendorController extends Controller
     }
     public function getTotalAmount()
     {
-        return Vendor::sum('amount');
+        return number_format(Vendor::sum('amount'));
     }
 }

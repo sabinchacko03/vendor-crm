@@ -3,7 +3,9 @@
     <div class="row">
       <div class="col-md-6 offset-md-3">
         <div class="alert alert-danger" v-if="errors !== ''">
-          {{ errors }}
+          <template v-for="item in errors" :key="item">
+            <li>{{ item[0] }}</li>
+          </template>
         </div>
 
         <form class="mt-2" @submit.prevent="saveVendor">
@@ -82,7 +84,14 @@
               <option value="10000">30,000</option>
             </select>
           </div>
-          <button class="btn btn-primary" type="submit">Save</button>
+          <div>
+            <button class="btn btn-primary" type="submit">Save</button>
+            <router-link
+              class="btn btn-secondary mx-2"
+              :to="{ name: 'vendors.home' }"
+              >Back</router-link
+            >
+          </div>
         </form>
       </div>
     </div>
