@@ -49,9 +49,14 @@
           </div>
           <div class="mb-3">
             <label for="gender" class="form-label">Gender</label>
-            <select name="gender" id="gender" v-model="form.gender" class="form-select">
-                <option value="male">Male</option>
-                <option value="female">Female</option>
+            <select
+              name="gender"
+              id="gender"
+              v-model="form.gender"
+              class="form-select"
+            >
+              <option value="male">Male</option>
+              <option value="female">Female</option>
             </select>
           </div>
           <div class="mb-3">
@@ -98,6 +103,7 @@ export default {
       gender: "",
       company: "",
       amount: "",
+      status: 1,
     });
 
     const { storeVendor, errors } = useVendors();

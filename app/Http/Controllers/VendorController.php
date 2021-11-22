@@ -63,8 +63,25 @@ class VendorController extends Controller
      */
     public function destroy(Vendor $vendor)
     {
-        // $vendor->delete();
-        $vendor->update(['status'=> 0]);
+        $vendor->delete();
+        // $vendor->update(['status' => 0]);
         return response()->noContent();
+    }
+
+    public function deactivate(Request $request)
+    {
+        $vendor = Vendor::find($request->id);
+        $vendor->status = 0;
+        $vendor->save();
+        return response()->noContent();
+    }
+
+    public function getDeletedVendors()
+    {
+        return VendorResource::collection(Vendor::where('status', 0)->get());
+    }
+    public function getTotalAmount()
+    {
+        return Vendor::sum('amount');
     }
 }

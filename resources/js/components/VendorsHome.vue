@@ -13,6 +13,7 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-text">Number of Vendor Deletes</h5>
+            <p class="cart">{{ inactiveVendors.length }}</p>
           </div>
         </div>
       </div>
@@ -48,6 +49,11 @@
                 <td>{{ item.email }}</td>
                 <td>{{ item.amount }}</td>
                 <td>
+                  <router-link
+                    :to="{ name: 'vendors.view', params: { id: item.id } }"
+                    class="btn btn-outline-success m-1"
+                    >View
+                  </router-link>
                   <button
                     @click="deleteVendor(item.id)"
                     class="btn btn-outline-danger"
@@ -70,9 +76,21 @@ import { onMounted } from "vue";
 
 export default {
   setup() {
-    const { vendors, getVendors, destroyVendor } = useVendors();
+    const {
+      vendors,
+      inactiveVendors,
+      totalAmount,
+      getVendors,
+      destroyVendor,
+      getInactiveVendors,
+      getTotalAmount, 
+    } = useVendors();
 
-    onMounted(getVendors);
+    onMounted(() => {
+      getVendors(),
+      getInactiveVendors(),
+      getTotalAmount()
+    })
 
     const deleteVendor = async (id) => {
       if (!window.confirm("Are you sure to delete?")) {
@@ -80,11 +98,14 @@ export default {
       }
       await destroyVendor(id);
       getVendors();
+      getInactiveVendors()
     };
 
     return {
       vendors,
-      deleteVendor
+      deleteVendor,
+      inactiveVendors,
+      totalAmount
     };
   },
 };

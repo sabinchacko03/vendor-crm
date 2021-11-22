@@ -1,46 +1,63 @@
-import { ref } from "vue"
-import axios from "axios"
-import { routerKey, useRouter } from "vue-router"
+import { ref } from "vue";
+import axios from "axios";
+import { routerKey, useRouter } from "vue-router";
 
 export default function useVendors() {
-    const vendors = ref([])
+    const vendors = ref([]);
     const router = useRouter();
-    const errors = ref('');
-    const vendor = ref('');
+    const errors = ref("");
+    const vendor = ref("");
+    const inactiveVendors = ref([]);
+    const totalAmount = ref('');
 
     const getVendors = async () => {
-        let response = await axios.get('/api/vendors')
-        vendors.value = response.data.data
-    }
+        let response = await axios.get("/api/vendors");
+        vendors.value = response.data.data;
+    };
+
+    const getVendor = async (id) => {
+        let response = await axios.get("/api/vendors/" + id);
+        vendor.value = response.data.data;
+    };
 
     const storeVendor = async (data) => {
-        errors.value = ''
+        errors.value = "";
         try {
-            await axios.post('/api/vendors', data);
-            await router.push({ name: 'vendors.index' });
+            await axios.post("/api/vendors", data);
+            await router.push({ name: "vendors.home" });
         } catch (e) {
             if (e.response.status === 422) {
-                errors.value = e.response.data.errors
+                errors.value = e.response.data.errors;
             }
         }
-    }
+    };
 
     const destroyVendor = async (id) => {
-        // await axios.delete('/api/vendors/' + id)
-        let response = await axios.get('/api/vendors/' + id);
-        vendor.value = response.data.data;
-        vendor.value.status = 0;
-        vendor.value.firstname = 0;
-        console.log(vendor.value);
-        await axios.put('/api/vendors/' + id, vendor.value)
+        const delData = { id: id, status: 0 };
+        let response = await axios.post("/api/deactivate", delData);
+    };
+
+    const getInactiveVendors = async()=>{
+        let response= await axios.get("/api/inactive-vendors")
+        inactiveVendors.value = response.data.data;
     }
 
+    const getTotalAmount = async()=>{
+        let response= await axios.get("/api/total-amount")
+        totalAmount.value = response.data;
+    }
 
     return {
         vendors,
         getVendors,
         destroyVendor,
         storeVendor,
-        errors
-    }
+        errors,
+        vendor,
+        getVendor,
+        getInactiveVendors,
+        inactiveVendors,
+        getTotalAmount,
+        totalAmount
+    };
 }

@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::apiResource('vendors', VendorController::class);
+Route::post('/deactivate', [VendorController::class, 'deactivate']);
+Route::get('/inactive-vendors', [VendorController::class, 'getDeletedVendors']);
+Route::get('/total-amount', [VendorController::class, 'getTotalAmount']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
