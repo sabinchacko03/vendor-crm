@@ -93,9 +93,9 @@ export default {
     })
 
     const deleteVendor = async (id) => {
-      if (!window.confirm("Are you sure to delete?")) {
-        return;
-      }
+      // if (!window.confirm("Are you sure to delete?")) {
+      //   return;
+      // }
       await destroyVendor(id);
       getVendors();
       getInactiveVendors()

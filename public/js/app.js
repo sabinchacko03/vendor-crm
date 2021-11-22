@@ -19656,22 +19656,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (window.confirm("Are you sure to delete?")) {
-                  _context.next = 2;
-                  break;
-                }
-
-                return _context.abrupt("return");
-
-              case 2:
-                _context.next = 4;
+                _context.next = 2;
                 return destroyVendor(id);
 
-              case 4:
+              case 2:
                 getVendors();
                 getInactiveVendors();
 
-              case 6:
+              case 4:
               case "end":
                 return _context.stop();
             }
